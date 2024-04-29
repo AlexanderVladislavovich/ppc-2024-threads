@@ -109,7 +109,7 @@ bool OmpIntRadixSortWithBatcherMerge::run() {
     }
     // std::sort(result.begin(), result.end());
     // oddEvenMergeSort(input, result, 0, input.size() - 1);
-    radixSort(input, result, 0, input.size() - 1);
+    radixSort(result, 0, input.size() - 1);
   } catch (...) {
     return false;
   }
