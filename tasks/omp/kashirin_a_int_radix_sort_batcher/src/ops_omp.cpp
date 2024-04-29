@@ -33,17 +33,16 @@ void radixSort(std::vector<int>& src, size_t left, size_t right) {
       int rem = remainder(src[i], k);
       tmp[rem][amount[rem]++] = src[i];
     }
-    std::vector<int> sz(10, 0);
-    for (int i = 1; i < 10; i++) sz[i] = sz[i - 1] + amount[i - 1];
-#pragma omp parallel num_threads(10)
-    {
-      int n = omp_get_thread_num();
-      for (int i = sz[n], j = 0; j < amount[n]; i++, j++) {
-        src[i] = tmp[n][j];
+    int ind = left;
+    for (int i = 0; i < 10; i++) {
+      for (int j = 0; j < amount[i]; j++) {
+        {
+          src[ind] = tmp[i][j];
+          ind++;
+        }
       }
-      amount[n] = 0;
+      amount[i] = 0;
     }
-#pragma omp barrier
     k++;
   }
 }
