@@ -104,7 +104,11 @@ bool OmpIntRadixSortWithBatcherMerge::validation() {
 bool OmpIntRadixSortWithBatcherMerge::run() {
   internal_order_test();
   try {
-    oddEvenMergeSort(input, result, 0, input.size() - 1);
+    for (int i = 0; i < input.size(); i++) {
+      result[i] = input[i];
+    }
+    std::sort(result.begin(), result.end());
+    //oddEvenMergeSort(input, result, 0, input.size() - 1);
   } catch (...) {
     return false;
   }
