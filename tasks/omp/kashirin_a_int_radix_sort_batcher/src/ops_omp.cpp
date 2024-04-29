@@ -39,8 +39,8 @@ void radixSort(std::vector<int>& src, size_t left, size_t right) {
     {
       int n = omp_get_thread_num();
       for (int i = sz[n], j = 0; j < amount[n]; i++, j++) {
-#pragma omp atomic
-        src[i] = tmp[n][j];
+#pragma omp critical
+        { src[i] = tmp[n][j]; }
       }
       amount[n] = 0;
     }
