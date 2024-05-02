@@ -24,7 +24,7 @@ class StlIntRadixSortWithBatcherMerge : public ppc::core::Task {
 
  public:
   bool isEqual(std::vector<int>& expected) {
-    for (int i = 0; i < expected.size(); i++) {
+    for (int i = 0; i < (int)expected.size(); i++) {
       if (expected[i] != result[i]) return false;
     }
     return true;

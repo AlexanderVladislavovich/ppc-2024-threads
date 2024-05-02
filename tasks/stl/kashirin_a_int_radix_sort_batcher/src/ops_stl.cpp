@@ -1,8 +1,8 @@
 // Copyright 2024 Kashirin Alexander
+#include "stl/kashirin_a_int_radix_sort_batcher/include/ops_stl.hpp"
+
 #include <cmath>
 #include <thread>
-
-#include "stl/kashirin_a_int_radix_sort_batcher/include/ops_stl.hpp"
 using namespace std::chrono_literals;
 
 int remainder(int num, int k) { return (num / static_cast<int>(pow(10, k - 1))) % 10; }
@@ -12,7 +12,7 @@ void oddToArr(std::vector<int>& src, std::vector<int>& res) {
   int numThreads = 4;
   std::vector<std::thread> threads(numThreads);
   for (int th = 0; th < numThreads; th++) {
-    threads[th] = std::thread([&src, &res, &j, numThreads, th]() {
+    threads[th] = std::thread([&src, &res, &j, th]() {
       for (int i = th * 2 + 1; i < static_cast<int>(src.size()); i += 2 * numThreads) {
         res[j.fetch_add(1)] = src[i];
       }
@@ -23,13 +23,12 @@ void oddToArr(std::vector<int>& src, std::vector<int>& res) {
   }
 }
 
-
 void evenToArr(std::vector<int>& src, std::vector<int>& res) {
   std::atomic<int> j(0);
   const int numThreads = 4;
   std::vector<std::thread> threads(numThreads);
   for (int th = 0; th < numThreads; th++) {
-    threads[th] = std::thread([&src, &res, &j, numThreads, th]() {
+    threads[th] = std::thread([&src, &res, &j, th]() {
       for (int i = th * 2; i < static_cast<int>(src.size()); i += 2 * numThreads) {
         res[j.fetch_add(1)] = src[i];
       }
@@ -49,7 +48,6 @@ void radixSort(std::vector<int>& src, size_t left, size_t right) {
     for (int i = (int)left; i <= (int)right; i++) {
       int rem = remainder(src[i], k);
       tmp[rem][amount[rem]++] = src[i];
-      
     }
     for (int i = 1; i < 10; i++) sz[i] = sz[i - 1] + amount[i - 1];
     std::vector<std::thread> threads(10);
@@ -89,7 +87,7 @@ void merge2(std::vector<int>& src1, std::vector<int>& src2, std::vector<int>& re
   }
 }
 
-void oddEvenMergeSort(std::vector<int>& src, std::vector<int>& res, size_t left, size_t right) {
+void oddEvenMergeSort(std::vector<int>& src, std::vector<int>& res) {
   std::vector<int> even(src.size() / 2 + src.size() % 2);
   std::vector<int> odd(src.size() - even.size());
 
@@ -127,7 +125,7 @@ bool StlIntRadixSortWithBatcherMerge::validation() {
 bool StlIntRadixSortWithBatcherMerge::run() {
   internal_order_test();
   try {
-    oddEvenMergeSort(input, result, 0, input.size() - 1);
+    oddEvenMergeSort(input, result);
   } catch (...) {
     return false;
   }
