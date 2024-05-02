@@ -49,7 +49,7 @@ TEST(kashirin_a_int_radix_sort_batcher_stl, Test_sort_20) {
   testTaskSequential.pre_processing();
   testTaskSequential.run();
   testTaskSequential.post_processing();
-  ASSERT_TRUE(std::is_sorted(out.begin(), out.end());
+  ASSERT_TRUE(std::is_sorted(out.begin(), out.end()));
 }
 
 TEST(kashirin_a_int_radix_sort_batcher_stl, Test_sort_50) {
@@ -72,7 +72,7 @@ TEST(kashirin_a_int_radix_sort_batcher_stl, Test_sort_50) {
   testTaskSequential.pre_processing();
   testTaskSequential.run();
   testTaskSequential.post_processing();
-  ASSERT_TRUE(std::is_sorted(out.begin(), out.end());
+  ASSERT_TRUE(std::is_sorted(out.begin(), out.end()));
 }
 
 TEST(kashirin_a_int_radix_sort_batcher_stl, Test_sort_70) {
@@ -95,7 +95,7 @@ TEST(kashirin_a_int_radix_sort_batcher_stl, Test_sort_70) {
   testTaskSequential.pre_processing();
   testTaskSequential.run();
   testTaskSequential.post_processing();
-  ASSERT_TRUE(std::is_sorted(out.begin(), out.end());
+  ASSERT_TRUE(std::is_sorted(out.begin(), out.end()));
 }
 
 TEST(kashirin_a_int_radix_sort_batcher_stl, Test_sort_100) {
@@ -118,5 +118,5 @@ TEST(kashirin_a_int_radix_sort_batcher_stl, Test_sort_100) {
   testTaskSequential.pre_processing();
   testTaskSequential.run();
   testTaskSequential.post_processing();
-  ASSERT_TRUE(std::is_sorted(out.begin(), out.end());
+  ASSERT_TRUE(std::is_sorted(out.begin(), out.end()));
 }
