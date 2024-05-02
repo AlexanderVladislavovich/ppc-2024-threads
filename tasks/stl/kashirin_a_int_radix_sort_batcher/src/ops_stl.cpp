@@ -136,6 +136,6 @@ bool StlIntRadixSortWithBatcherMerge::run() {
 bool StlIntRadixSortWithBatcherMerge::post_processing() {
   internal_order_test();
   std::copy(result.begin(), result.end(), reinterpret_cast<int*>(taskData->outputs[0]));
-  return true;
-  // return std::is_sorted(result.begin(), result.end());
+  return std::is_sorted(result.begin(), result.end());
+  // return true;
 }
