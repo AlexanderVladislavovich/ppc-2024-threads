@@ -30,10 +30,3 @@ inline std::vector<int> RandomVector(int size) {
   }
   return vector;
 }
-
-bool isEqual(std::vector<int>& expected) {
-  for (int i = 0; i < (int)expected.size(); i++) {
-    if (expected[i] != result[i]) return false;
-  }
-  return true;
-}
