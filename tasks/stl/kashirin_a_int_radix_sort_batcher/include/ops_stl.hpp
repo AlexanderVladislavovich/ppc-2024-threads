@@ -30,7 +30,6 @@ class StlIntRadixSortWithBatcherMerge : public ppc::core::Task {
     return true;
   }
   bool IsSorted() { return std::is_sorted(result.begin(), result.end()); }
-
 };
 
 inline std::vector<int> RandomVector(int size) {

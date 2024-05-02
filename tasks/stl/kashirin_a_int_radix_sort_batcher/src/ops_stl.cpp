@@ -12,7 +12,7 @@ void oddToArr(std::vector<int>& src, std::vector<int>& res) {
   int numThreads = 4;
   std::vector<std::thread> threads(numThreads);
   for (int th = 0; th < numThreads; th++) {
-    threads[th] = std::thread([&src, &res, &j, th]() {
+    threads[th] = std::thread([&, th]() {
       for (int i = th * 2 + 1; i < static_cast<int>(src.size()); i += 2 * numThreads) {
         res[j.fetch_add(1)] = src[i];
       }
@@ -28,7 +28,7 @@ void evenToArr(std::vector<int>& src, std::vector<int>& res) {
   const int numThreads = 4;
   std::vector<std::thread> threads(numThreads);
   for (int th = 0; th < numThreads; th++) {
-    threads[th] = std::thread([&src, &res, &j, th]() {
+    threads[th] = std::thread([&, th]() {
       for (int i = th * 2; i < static_cast<int>(src.size()); i += 2 * numThreads) {
         res[j.fetch_add(1)] = src[i];
       }
