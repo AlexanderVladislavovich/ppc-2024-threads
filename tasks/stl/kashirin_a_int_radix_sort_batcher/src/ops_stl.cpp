@@ -1,9 +1,10 @@
 // Copyright 2024 Kashirin Alexander
 #include "stl/kashirin_a_int_radix_sort_batcher/include/ops_stl.hpp"
 
+#include <omp.h>
+
 #include <cmath>
 #include <thread>
-#include <omp.h>
 using namespace std::chrono_literals;
 
 int remainder(int num, int k) { return (num / static_cast<int>(pow(10, k - 1))) % 10; }
@@ -97,14 +98,13 @@ void merge2(std::vector<int>& src1, std::vector<int>& src2, std::vector<int>& re
     }
   }
   double mergeend = omp_get_wtime();
-  std::cout << "merge time  = "<< mergeend - mergestart << std::endl;
+  std::cout << "merge time  = " << mergeend - mergestart << std::endl;
 }
 
 double start = 0;
 double end = 0;
 
 void oddEvenMergeSort(std::vector<int>& src, std::vector<int>& res) {
-
   double start1 = omp_get_wtime();
 
   std::vector<int> even(src.size() / 2 + src.size() % 2);
@@ -118,11 +118,10 @@ void oddEvenMergeSort(std::vector<int>& src, std::vector<int>& res) {
 
   merge2(odd, even, res);
   double end1 = omp_get_wtime();
-  std::cout << "odd even merge sort time = " << end1 - start1 std::endl;
+  std::cout << "odd even merge sort time = " << end1 - start1 << std::endl;
 }
 
 bool StlIntRadixSortWithBatcherMerge::pre_processing() {
-
   double start2 = omp_get_wtime();
   internal_order_test();
   // Init value for input and output
@@ -167,7 +166,7 @@ bool StlIntRadixSortWithBatcherMerge::post_processing() {
   double start5 = omp_get_wtime();
   internal_order_test();
   
-  //std::cout << "END - START = " << end - start << std::endl;
+  // std::cout << "END - START = " << end - start << std::endl;
   std::copy(result.begin(), result.end(), reinterpret_cast<int*>(taskData->outputs[0]));
   // return std::is_sorted(result.begin(), result.end());
   double end5 = omp_get_wtime();
