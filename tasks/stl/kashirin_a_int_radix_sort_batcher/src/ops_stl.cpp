@@ -28,7 +28,7 @@ void radixSort(std::vector<int>& src, size_t left, size_t right) {
   std::vector<int> amount(10, 0);
   int k = 1;
   while (k <= 3) {
-    for (int i = (int)left; i <= (int)right; i++) {
+    for (int i = static_cast<int>(left); i <= static_cast<int>(right); i++) {
       int rem = remainder(src[i], k);
       tmp[rem][amount[rem]++] = src[i];
     }
@@ -73,8 +73,8 @@ void oddEvenMergeSort(std::vector<int>& src, std::vector<int>& res) {
     th.join();
   }
 
-  threads[0] = std::thread(radixSort, std::ref(odd), 0, odd.size() - 1);
-  threads[1] = std::thread(radixSort, std::ref(even), 0, even.size() - 1);
+  threads[0] = std::thread(radixSort, std::ref(odd), static_cast<size_t>(0), odd.size() - static_cast<size_t>(1));
+  threads[1] = std::thread(radixSort, std::ref(even), static_cast<size_t>(0), even.size() - static_cast<size_t>(1));
   for (auto& th : threads) {
     th.join();
   }

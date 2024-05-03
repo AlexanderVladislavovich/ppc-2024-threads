@@ -2,11 +2,11 @@
 #pragma once
 
 #include <algorithm>
+#include <functional>
 #include <iostream>
 #include <string>
 #include <thread>
 #include <vector>
-#include <functional>
 
 #include "core/task/include/task.hpp"
 
