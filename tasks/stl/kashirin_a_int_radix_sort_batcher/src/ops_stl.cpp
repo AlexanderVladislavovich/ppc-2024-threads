@@ -1,8 +1,6 @@
 // Copyright 2024 Kashirin Alexander
 #include "stl/kashirin_a_int_radix_sort_batcher/include/ops_stl.hpp"
 
-#include <omp.h>
-
 #include <cmath>
 #include <thread>
 using namespace std::chrono_literals;
