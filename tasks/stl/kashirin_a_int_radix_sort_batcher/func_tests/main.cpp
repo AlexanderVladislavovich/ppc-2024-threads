@@ -11,6 +11,7 @@ TEST(kashirin_a_int_radix_sort_batcher_stl, Test_sort_10) {
 
   // Create data
   std::vector<int> in = {9, 8, 7, 6, 5, 4, 3, 2, 1, 0};
+
   //RandomVector(count);
   std::vector<int> out(count, 0);
 
