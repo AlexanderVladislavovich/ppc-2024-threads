@@ -12,7 +12,7 @@ int remainder(int num, int k) { return (num / static_cast<int>(pow(10, k - 1))) 
 void oddToArr(std::vector<int>& src, std::vector<int>& res) {
   double oddstart = omp_get_wtime();
   int j = 0;
-  for (int i = 0 + 1; i < src.size(); i += 2) {
+  for (int i = 0 + 1; i < (int)src.size(); i += 2) {
     res[j++] = src[i];
   }
   double oddend = omp_get_wtime();
@@ -22,7 +22,7 @@ void oddToArr(std::vector<int>& src, std::vector<int>& res) {
 void evenToArr(std::vector<int>& src, std::vector<int>& res) {
   double evenstart = omp_get_wtime();
   int j = 0;
-  for (int i = 0; i < src.size(); i += 2) {
+  for (int i = 0; i < (int)src.size(); i += 2) {
     res[j++] = src[i];
   }
   double evenend = omp_get_wtime();
@@ -149,7 +149,7 @@ bool StlIntRadixSortWithBatcherMerge::run() {
   }
   // std::this_thread::sleep_for(20ms);
   double end4 = omp_get_wtime();
-  for (int i = 0; i < result.size(); i++) {
+  for (int i = 0; i < (int)result.size(); i++) {
     std::cout << "[" << result[i] << "]";
   }
   std::cout << " run time = " << end4 - start4 << std::endl;
