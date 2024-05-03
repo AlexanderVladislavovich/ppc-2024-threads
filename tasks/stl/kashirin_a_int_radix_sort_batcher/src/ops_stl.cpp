@@ -2,22 +2,27 @@
 #include "stl/kashirin_a_int_radix_sort_batcher/include/ops_stl.hpp"
 
 #include <cmath>
+#include <mutex>
 #include <thread>
 using namespace std::chrono_literals;
 
 int remainder(int num, int k) { return (num / static_cast<int>(pow(10, k - 1))) % 10; }
 
+std::mutex mtx;
+
 void oddToArr(std::vector<int>& src, std::vector<int>& res) {
-  int j = 0;
+  // int j = 0;
+  std::atomic<int> j(0);
   for (int i = 0 + 1; i < (int)src.size(); i += 2) {
-    res[j++] = src[i];
+    res[j.fetch_add(1)] = src[i];
   }
 }
 
 void evenToArr(std::vector<int>& src, std::vector<int>& res) {
-  int j = 0;
+  // int j = 0;
+  std::atomic<int> j(0);
   for (int i = 0; i < (int)src.size(); i += 2) {
-    res[j++] = src[i];
+    res[j.fetch_add(1)] = src[i];
   }
 }
 
@@ -33,8 +38,10 @@ void radixSort(std::vector<int>& src, size_t left, size_t right) {
     int ind = 0;
     for (int i = 0; i < 10; i++) {
       for (int j = 0; j < amount[i]; j++) {
+        mtx.lock();
         src[ind] = tmp[i][j];
         ind++;
+        mtx.unlock();
       }
       amount[i] = 0;
     }
