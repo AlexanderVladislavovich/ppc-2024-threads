@@ -67,8 +67,8 @@ void oddEvenMergeSort(std::vector<int>& src, std::vector<int>& res) {
   std::vector<int> odd(src.size() - even.size());
 
   std::vector<std::thread> threads(2);
-  threads[0] = std::thread(oddToArr, std::move(src), std::ref(odd));
-  threads[1] = std::thread(evenToArr, std::move(src), std::ref(even));
+  threads[0] = std::thread(oddToArr, std::ref(src), std::ref(odd));
+  threads[1] = std::thread(evenToArr, std::ref(src), std::ref(even));
   for (auto& th : threads) {
     th.join();
   }

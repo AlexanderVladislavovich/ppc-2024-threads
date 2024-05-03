@@ -6,6 +6,7 @@
 #include <string>
 #include <thread>
 #include <vector>
+#include <functional>
 
 #include "core/task/include/task.hpp"
 
