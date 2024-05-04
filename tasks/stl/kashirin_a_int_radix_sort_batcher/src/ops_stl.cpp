@@ -8,12 +8,8 @@ using namespace std::chrono_literals;
 
 int remainder(int num, int k) { return (num / static_cast<int>(pow(10, k - 1))) % 10; }
 
-// std::mutex mtx;
-
 void oddToArr(std::vector<int>& src, std::vector<int>& res) {
   int j = 0;
-  std::cout << "odd to arr" << std::endl;
-  // std::atomic<int> j(0);
   for (int i = 0 + 1; i < (int)src.size(); i += 2) {
     res[j++] = src[i];
   }
@@ -21,56 +17,33 @@ void oddToArr(std::vector<int>& src, std::vector<int>& res) {
 
 void evenToArr(std::vector<int>& src, std::vector<int>& res) {
   int j = 0;
-  std::cout << "even to arr" << std::endl;
-  // std::atomic<int> j(0);
   for (int i = 0; i < (int)src.size(); i += 2) {
     res[j++] = src[i];
   }
 }
 
 void radixSort(std::vector<int>& src, size_t left, size_t right) {
-  std::cout << "radix sort" << std::endl;
   std::vector<std::vector<int>> tmp(10, std::vector<int>((static_cast<int>(right - left + 2)), 0));
   std::vector<int> amount(10, 0);
-  std::vector<int> sz(10, 0);
   int k = 1;
   while (k <= 3) {
     for (int i = static_cast<int>(left); i <= static_cast<int>(right); i++) {
       int rem = remainder(src[i], k);
       tmp[rem][amount[rem]++] = src[i];
     }
-    for (int i = 1; i < 10; i++) sz[i] = sz[i - 1] + amount[i - 1];
-    std::vector<std::thread> threads(10);
-    for (int th = 0; th < 10; th++) {
-      threads[th] = std::thread([&, th]() {
-        int n = th;
-        int start = sz[n];
-        int end = start + amount[n];
-        for (int i = start, j = 0; i < end; i++, j++) {
-          src[i] = tmp[n][j];
-        }
-        amount[n] = 0;
-      });
+    int ind = 0;
+    for (int i = 0; i < 10; i++) {
+      for (int j = 0; j < amount[i]; j++) {
+        src[ind] = tmp[i][j];
+        ind++;
+      }
+      amount[i] = 0;
     }
-    for (auto& thread : threads) {
-      thread.join();
-    }
-    //int ind = 0;
-    //for (int i = 0; i < 10; i++) {
-    //  for (int j = 0; j < amount[i]; j++) {
-    //    // mtx.lock();
-    //    src[ind] = tmp[i][j];
-    //    ind++;
-    //    // mtx.unlock();
-    //  }
-    //  amount[i] = 0;
-    //}
     k++;
   }
 }
 
 void merge2(std::vector<int>& src1, std::vector<int>& src2, std::vector<int>& res) {
-  std::cout << "merge" << std::endl;
   size_t i = 0;
   size_t j = 0;
   size_t end = res.size();
@@ -91,7 +64,7 @@ void merge2(std::vector<int>& src1, std::vector<int>& src2, std::vector<int>& re
 void oddEvenMergeSort(std::vector<int>& src, std::vector<int>& res) {
   std::vector<int> even(src.size() / 2 + src.size() % 2);
   std::vector<int> odd(src.size() - even.size());
-  std::cout << "oddeven sort" << std::endl;
+
   std::vector<std::thread> threads(2);
   threads[0] = std::thread(oddToArr, std::ref(src), std::ref(odd));
   threads[1] = std::thread(evenToArr, std::ref(src), std::ref(even));
@@ -110,7 +83,6 @@ void oddEvenMergeSort(std::vector<int>& src, std::vector<int>& res) {
 
 bool StlIntRadixSortWithBatcherMerge::pre_processing() {
   internal_order_test();
-  std::cout << "pre processing" << std::endl;
   // Init value for input and output
   input = std::vector<int>(taskData->inputs_count[0]);
   auto* tmp = reinterpret_cast<int*>(taskData->inputs[0]);
@@ -123,7 +95,6 @@ bool StlIntRadixSortWithBatcherMerge::pre_processing() {
 
 bool StlIntRadixSortWithBatcherMerge::validation() {
   internal_order_test();
-  std::cout << "validation" << std::endl;
   // Check count elements of output
   return taskData->inputs_count[0] == taskData->outputs_count[0];
   // return taskData->inputs_count.size() == taskData->outputs_count.size();
@@ -133,7 +104,6 @@ bool StlIntRadixSortWithBatcherMerge::validation() {
 bool StlIntRadixSortWithBatcherMerge::run() {
   internal_order_test();
   try {
-    std::cout << "run" << std::endl;
     oddEvenMergeSort(input, result);
   } catch (...) {
     return false;
@@ -145,7 +115,6 @@ bool StlIntRadixSortWithBatcherMerge::run() {
 bool StlIntRadixSortWithBatcherMerge::post_processing() {
   internal_order_test();
   std::copy(result.begin(), result.end(), reinterpret_cast<int*>(taskData->outputs[0]));
-  std::cout << "post processing" << std::endl;
   return std::is_sorted(result.begin(), result.end());
   // return true;
 }
