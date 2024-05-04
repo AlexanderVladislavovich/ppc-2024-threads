@@ -8,29 +8,29 @@ using namespace std::chrono_literals;
 
 int remainder(int num, int k) { return (num / static_cast<int>(pow(10, k - 1))) % 10; }
 
-std::mutex mtx;
+//std::mutex mtx;
 
 void oddToArr(std::vector<int>& src, std::vector<int>& res) {
-  // int j = 0;
-  std::cout << "odd to arr" << std::endl;
+  int j = 0;
+  //std::cout << "odd to arr" << std::endl;
   std::atomic<int> j(0);
   for (int i = 0 + 1; i < (int)src.size(); i += 2) {
-    res[j.fetch_add(1)] = src[i];
+    res[j++] = src[i];
   }
 }
 
 void evenToArr(std::vector<int>& src, std::vector<int>& res) {
-  // int j = 0;
+  int j = 0;
   std::cout << "even to arr" << std::endl;
-  std::atomic<int> j(0);
+  //std::atomic<int> j(0);
   for (int i = 0; i < (int)src.size(); i += 2) {
-    res[j.fetch_add(1)] = src[i];
+    res[j++] = src[i];
   }
 }
 
 void radixSort(std::vector<int>& src, size_t left, size_t right) {
   std::cout << "radix sort" << std::endl;
-  std::vector<std::vector<int>> tmp(10, std::vector<int>((static_cast<int>(right - left)), 0));
+  std::vector<std::vector<int>> tmp(10, std::vector<int>((static_cast<int>(right - left + 2)), 0));
   std::vector<int> amount(10, 0);
   int k = 1;
   while (k <= 3) {
@@ -41,10 +41,10 @@ void radixSort(std::vector<int>& src, size_t left, size_t right) {
     int ind = 0;
     for (int i = 0; i < 10; i++) {
       for (int j = 0; j < amount[i]; j++) {
-        mtx.lock();
+        //mtx.lock();
         src[ind] = tmp[i][j];
         ind++;
-        mtx.unlock();
+        //mtx.unlock();
       }
       amount[i] = 0;
     }
@@ -82,8 +82,8 @@ void oddEvenMergeSort(std::vector<int>& src, std::vector<int>& res) {
     th.join();
   }
 
-  threads[0] = std::thread(radixSort, std::ref(odd), static_cast<size_t>(0), odd.size() - static_cast<size_t>(1));
-  threads[1] = std::thread(radixSort, std::ref(even), static_cast<size_t>(0), even.size() - static_cast<size_t>(1));
+  threads[0] = std::thread(radixSort, std::ref(odd), 0, odd.size() - 1);
+  threads[1] = std::thread(radixSort, std::ref(even), 0, even.size() - 1);
   for (auto& th : threads) {
     th.join();
   }
