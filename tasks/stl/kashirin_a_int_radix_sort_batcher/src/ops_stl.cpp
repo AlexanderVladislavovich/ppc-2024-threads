@@ -32,22 +32,39 @@ void radixSort(std::vector<int>& src, size_t left, size_t right) {
   std::cout << "radix sort" << std::endl;
   std::vector<std::vector<int>> tmp(10, std::vector<int>((static_cast<int>(right - left + 2)), 0));
   std::vector<int> amount(10, 0);
+  std::vector<int> sz(10, 0);
   int k = 1;
   while (k <= 3) {
     for (int i = static_cast<int>(left); i <= static_cast<int>(right); i++) {
       int rem = remainder(src[i], k);
       tmp[rem][amount[rem]++] = src[i];
     }
-    int ind = 0;
-    for (int i = 0; i < 10; i++) {
-      for (int j = 0; j < amount[i]; j++) {
-        // mtx.lock();
-        src[ind] = tmp[i][j];
-        ind++;
-        // mtx.unlock();
-      }
-      amount[i] = 0;
+    for (int i = 1; i < 10; i++) sz[i] = sz[i - 1] + amount[i - 1];
+    std::vector<std::thread> threads(10);
+    for (int th = 0; th < 10; th++) {
+      threads[th] = std::thread([&, th]() {
+        int n = th;
+        int start = sz[n];
+        int end = start + amount[n];
+        for (int i = start, j = 0; i < end; i++, j++) {
+          src[i] = tmp[n][j];
+        }
+        amount[n] = 0;
+      });
     }
+    for (auto& thread : threads) {
+      thread.join();
+    }
+    //int ind = 0;
+    //for (int i = 0; i < 10; i++) {
+    //  for (int j = 0; j < amount[i]; j++) {
+    //    // mtx.lock();
+    //    src[ind] = tmp[i][j];
+    //    ind++;
+    //    // mtx.unlock();
+    //  }
+    //  amount[i] = 0;
+    //}
     k++;
   }
 }

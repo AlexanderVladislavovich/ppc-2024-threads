@@ -28,7 +28,7 @@ TEST(kashirin_a_int_radix_sort_batcher_stl, Test_sort_10) {
   // ASSERT_TRUE(std::is_sorted(out.begin(), out.end()));
 }
 
-//TEST(kashirin_a_int_radix_sort_batcher_stl, Test1) { ASSERT_TRUE(true); }
+// TEST(kashirin_a_int_radix_sort_batcher_stl, Test1) { ASSERT_TRUE(true); }
 
 TEST(kashirin_a_int_radix_sort_batcher_stl, Test_sort_20) {
   const int count = 20;
