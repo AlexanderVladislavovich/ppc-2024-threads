@@ -26,7 +26,7 @@ TEST(kashirin_a_int_radix_sort_batcher_stl, Test_expected_vector) {
   ASSERT_TRUE(testTaskSequential.pre_processing());
   ASSERT_TRUE(testTaskSequential.run());
   ASSERT_TRUE(testTaskSequential.post_processing());
-  ASSERT_TRUE(testTaskSequential.is_equal(expected);
+  ASSERT_TRUE(testTaskSequential.is_equal(expected));
 }
 
 TEST(kashirin_a_int_radix_sort_batcher_stl, Test_sort_10) {
